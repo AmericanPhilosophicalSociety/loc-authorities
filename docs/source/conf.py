@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'locpy'
+project = 'lc-ld'
 copyright = '2025, CDS @ APS'
 author = 'CDS @ APS'
 release = '0.1'

@@ -1,5 +1,5 @@
 [project]
-name = "locpy"
+name = "lc-ld"
 version = "0.1.0"
 description = "Python module for interacting with Library of Congress Linked Data Service and API endpoint"
 authors = [

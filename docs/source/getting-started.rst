@@ -4,26 +4,26 @@ Getting Started
 Installation
 ------------
 
-Install locpy into a virtual environment with pip:
+Install lc_ld into a virtual environment with pip:
 
 .. code-block:: console
 
-    (.venv) $ pip install git+https://github.com/AmericanPhilosophicalSociety/locpy
+    (.venv) $ pip install git+https://github.com/AmericanPhilosophicalSociety/lc-ld
 
 Alternatively, install with uv:
 
 .. code-block:: console
 
-    $ uv add "locpy @git+https://github.com/AmericanPhilosophicalSociety/locpy"
+    $ uv add "lc-ld @git+https://github.com/AmericanPhilosophicalSociety/lc-ld"
 
 Basic Usage
 -----------
 
-locpy can be used to construct URIs from known identifiers
+lc_ld can be used to construct URIs from known identifiers
 
 .. doctest::
 
-    >>> from locpy.api import LocAPI
+    >>> from lc_ld.api import LocAPI
     >>> LocAPI.uri_from_id('n79043402')
     'http://id.loc.gov/authorities/n79043402'
     >>> LocAPI.dataset_uri_from_id('n79043402')
@@ -37,7 +37,7 @@ You can also retrieve an identifier if you know the label
     >>> loc.retrieve_label('Franklin, Benjamin, 1706-1790')
     'n79043402'
 
-locpy provides support for querying the `"suggest" API" <https://id.loc.gov/views/pages/swagger-api-docs/index.html#suggest-service-2.json>`_ provided by the Library of Congress. This performs a left-anchored search and will retrieve entries that start with the same character sequence as your query.
+lc_ld provides support for querying the `"suggest" API" <https://id.loc.gov/views/pages/swagger-api-docs/index.html#suggest-service-2.json>`_ provided by the Library of Congress. This performs a left-anchored search and will retrieve entries that start with the same character sequence as your query.
 
 .. doctest::
 
@@ -57,11 +57,11 @@ locpy provides support for querying the `"suggest" API" <https://id.loc.gov/view
     >>> search[0].label
     'Joslin, Benjamin F. (Benjamin Franklin), 1796-1861'
 
-locpy provides python classes that can represent single entities from the Linked Data Service
+lc_ld provides python classes that can represent single entities from the Linked Data Service
 
 .. doctest::
 
-    >>> from locpy.api import LocEntity
+    >>> from lc_ld.api import LocEntity
     >>> entity = LocEntity('mp2013015202')
     >>> entity.authoritative_label
     rdflib.term.Literal('dancer', lang='en')
@@ -74,7 +74,7 @@ Additional wrappers are provided for the Name Authority and the Subject Authorit
 
 .. doctest::
 
-    >>> from locpy.api import NameEntity
+    >>> from lc_ld.api import NameEntity
     >>> name = NameEntity('n79043402')
     >>> name.authoritative_label
     rdflib.term.Literal('Franklin, Benjamin, 1706-1790')
@@ -91,9 +91,9 @@ Complex topics list their components as instances of either :class:`NameEntity` 
 
 .. doctest::
 
-    >>> from locpy.api import SubjectEntity
+    >>> from lc_ld.api import SubjectEntity
     >>> subject = SubjectEntity('sh85054401')
     >>> subject.authoritative_label
     rdflib.term.Literal('German literature--Germany (East)', lang='en')
     >>> [type(s) for s in subject.components]
-    [<class 'locpy.api.SubjectEntity'>, <class 'locpy.api.NameEntity'>]
+    [<class 'lc_ld.api.SubjectEntity'>, <class 'lc_ld.api.NameEntity'>]

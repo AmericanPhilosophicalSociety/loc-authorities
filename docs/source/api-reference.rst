@@ -1,6 +1,6 @@
 API
 ===
 
-.. automodule:: locpy.api
+.. automodule:: lc_ld.api
     :members:
     :member-order: bysource
