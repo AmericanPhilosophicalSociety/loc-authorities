@@ -1,6 +1,6 @@
 API
 ===
 
-.. automodule:: lc_ld.api
+.. automodule:: loc_authorities.api
     :members:
     :member-order: bysource

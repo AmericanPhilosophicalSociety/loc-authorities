@@ -4,7 +4,7 @@ Getting Started
 Installation
 ------------
 
-Install lc_ld into a virtual environment with pip:
+Install loc_authorities into a virtual environment with pip:
 
 .. code-block:: console
 
@@ -19,11 +19,11 @@ Alternatively, install with uv:
 Basic Usage
 -----------
 
-lc_ld can be used to construct URIs from known identifiers
+loc_authorities can be used to construct URIs from known identifiers
 
 .. doctest::
 
-    >>> from lc_ld.api import LocAPI
+    >>> from loc_authorities.api import LocAPI
     >>> LocAPI.uri_from_id('n79043402')
     'http://id.loc.gov/authorities/n79043402'
     >>> LocAPI.dataset_uri_from_id('n79043402')
@@ -37,7 +37,7 @@ You can also retrieve an identifier if you know the label
     >>> loc.retrieve_label('Franklin, Benjamin, 1706-1790')
     'n79043402'
 
-lc_ld provides support for querying the `"suggest" API" <https://id.loc.gov/views/pages/swagger-api-docs/index.html#suggest-service-2.json>`_ provided by the Library of Congress. This performs a left-anchored search and will retrieve entries that start with the same character sequence as your query.
+loc_authorities provides support for querying the `"suggest" API" <https://id.loc.gov/views/pages/swagger-api-docs/index.html#suggest-service-2.json>`_ provided by the Library of Congress. This performs a left-anchored search and will retrieve entries that start with the same character sequence as your query.
 
 .. doctest::
 
@@ -57,11 +57,11 @@ lc_ld provides support for querying the `"suggest" API" <https://id.loc.gov/view
     >>> search[0].label
     'Joslin, Benjamin F. (Benjamin Franklin), 1796-1861'
 
-lc_ld provides python classes that can represent single entities from the Linked Data Service
+loc_authorities provides python classes that can represent single entities from the Linked Data Service
 
 .. doctest::
 
-    >>> from lc_ld.api import LocEntity
+    >>> from loc_authorities.api import LocEntity
     >>> entity = LocEntity('mp2013015202')
     >>> entity.authoritative_label
     rdflib.term.Literal('dancer', lang='en')
@@ -74,7 +74,7 @@ Additional wrappers are provided for the Name Authority and the Subject Authorit
 
 .. doctest::
 
-    >>> from lc_ld.api import NameEntity
+    >>> from loc_authorities.api import NameEntity
     >>> name = NameEntity('n79043402')
     >>> name.authoritative_label
     rdflib.term.Literal('Franklin, Benjamin, 1706-1790')
@@ -91,9 +91,9 @@ Complex topics list their components as instances of either :class:`NameEntity` 
 
 .. doctest::
 
-    >>> from lc_ld.api import SubjectEntity
+    >>> from loc_authorities.api import SubjectEntity
     >>> subject = SubjectEntity('sh85054401')
     >>> subject.authoritative_label
     rdflib.term.Literal('German literature--Germany (East)', lang='en')
     >>> [type(s) for s in subject.components]
-    [<class 'lc_ld.api.SubjectEntity'>, <class 'lc_ld.api.NameEntity'>]
+    [<class 'loc_authorities.api.SubjectEntity'>, <class 'loc_authorities.api.NameEntity'>]

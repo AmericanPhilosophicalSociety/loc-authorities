@@ -1,10 +1,10 @@
-# LC-LD
+# loc-authorities
 
 [![unit tests](https://github.com/AmericanPhilosophicalSociety/locpy/actions/workflows/run-tests.yml/badge.svg)](https://github.com/AmericanPhilosophicalSociety/locpy/actions/workflows/run-tests.yml)
 
 Python library for querying and representing LoC ID APIs. The library provides connectors for the Library of Congress Linked Data Authority.
 
-lc-ld uses the python library rdflib to query Library of Congress entities and represent them as python classes.
+loc-authorities uses the python library rdflib to query Library of Congress entities and represent them as python classes.
 
 ### Supported search interfaces:
 - [Resource retrieval](https://id.loc.gov/views/pages/swagger-api-docs/index.html#download.json) 
@@ -40,7 +40,7 @@ Clone the repo, then in the base directory, run:
 # construct URIs
 
 >>>
->>> from lc_ld.api import LocAPI
+>>> from loc_authorities.api import LocAPI
 >>> LocAPI.uri_from_id('n79043402')
 'http://id.loc.gov/authorities/n79043402'
 
@@ -68,7 +68,7 @@ Clone the repo, then in the base directory, run:
 
 # Represent a single entity
 >>>
->>> from lc_ld.api import LocEntity
+>>> from loc_authorities.api import LocEntity
 >>> entity = LocEntity('mp2013015202')
 >>> entity.authoritative_label
 rdflib.term.Literal('dancer', lang='en')
@@ -83,7 +83,7 @@ rdflib.term.Literal('dancer', lang='en')
 
 # Represent an entity from the Name Authority
 >>>
->>> from lc_ld.api import NameEntity
+>>> from loc_authorities.api import NameEntity
 >>> name = NameEntity('n79043402')
 >>> name.authoritative_label
 rdflib.term.Literal('Franklin, Benjamin, 1706-1790') # inherits all properties of LocEntity
@@ -98,13 +98,13 @@ rdflib.term.Literal('1790-04-17', datatype=rdflib.term.URIRef('http://id.loc.gov
 
 # Represent an entity from the Subject Authority
 >>>
->>> from lc_ld.api import SubjectEntity
+>>> from loc_authorities.api import SubjectEntity
 >>> subject = SubjectEntity('sh85054401')
 >>> subject.authoritative_label
 rdflib.term.Literal('German literature--Germany (East)', lang='en') # inherits all properties of LocEntity
 # for complex subjects, components instances of either NameEntity or SubjectEntity
 >>> subject.components
-[<lc_ld.api.SubjectEntity object at 0x0000025AF492B810>, <lc_ld.api.NameEntity object at 0x0000025AF492A990>]
+[<loc_authorities.api.SubjectEntity object at 0x0000025AF492B810>, <loc_authorities.api.NameEntity object at 0x0000025AF492A990>]
 
 ```
 

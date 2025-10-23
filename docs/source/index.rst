@@ -3,10 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to lc_ld's documentation!
+Welcome to documentation for loc-authorities!
 =================================
 
-**lc_ld** is a Python library for querying authorities from the `Linked Data Service <https://id.loc.gov/>`_ provided by the Library of Congress. It provides methods for querying the search and retrieval APIs and also provides Python classes to represent entities from the Linked Data Service.
+**loc-authorities** is a Python library for querying authorities from the `Linked Data Service <https://id.loc.gov/>`_ provided by the Library of Congress. It provides methods for querying the search and retrieval APIs and also provides Python classes to represent entities from the Linked Data Service.
 
 .. note::
    This project is under active development.

@@ -6,7 +6,7 @@ from unittest.mock import patch, Mock
 import requests
 import rdflib
 
-from lc_ld.api import LocAPI, SRUItem, LocEntity, NameEntity, SubjectEntity, SRUResult
+from loc_authorities.api import LocAPI, SRUItem, LocEntity, NameEntity, SubjectEntity, SRUResult
 
 
 FIXTURES_PATH = os.path.join(os.path.dirname(__file__), 'fixtures')
@@ -76,7 +76,7 @@ class TestLocAPI(object):
         with pytest.raises(ValueError):
             LocAPI.dataset_uri_from_id('TR658.3')
 
-    @patch('lc_ld.api.requests')
+    @patch('loc_authorities.api.requests')
     def test_retrieve_label(self, mockrequests):
         loc = LocAPI()
         # abbreviated successful request
@@ -97,7 +97,7 @@ class TestLocAPI(object):
     # constructs URLs correctly for differing authorities
     # returns empty list with no results
 
-    @patch('lc_ld.api.requests')
+    @patch('loc_authorities.api.requests')
     def test_suggest(self, mockrequests):
         loc = LocAPI()
         mockrequests.codes = requests.codes
@@ -137,7 +137,7 @@ class TestLocAPI(object):
         mockrequests.get.return_value.status_code = requests.codes.forbidden
         assert loc.suggest('test') == []
 
-    @patch('lc_ld.api.requests')
+    @patch('loc_authorities.api.requests')
     def test_search(self, mockrequests):
         loc = LocAPI()
         mockrequests.codes = requests.codes
@@ -199,8 +199,8 @@ class TestLocEntity(object):
         ent = LocEntity(self.test_id)
         assert ent.dataset_uriref == rdflib.URIRef(self.test_data_uri)
 
-    @patch('lc_ld.api.requests')
-    @patch('lc_ld.api.rdflib')
+    @patch('loc_authorities.api.requests')
+    @patch('loc_authorities.api.rdflib')
     def test_rdf(self, mockrdflib, mockrequests):
         mock_codes = Mock()
         mock_codes.ok = 200

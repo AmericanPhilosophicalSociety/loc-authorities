@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'lc-ld'
+project = 'loc-authorities'
 copyright = '2025, CDS @ APS'
 author = 'CDS @ APS'
 release = '0.1'
