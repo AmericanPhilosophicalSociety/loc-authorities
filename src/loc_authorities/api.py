@@ -136,12 +136,41 @@ class LocAPI(object):
 
         return []
 
-    def retrieve_label(self, label):
+    def retrieve_label(self, label, authority=None):
         """Query LoC's label retrieval API to return a URI from
-        a known label"""
+        a known label
+
+        :param label: The label to retrieve (string)
+        :param authority: the name of the authority to query. Defaults to `None`
+        """
 
         # TODO: Allow authorities to be passed in query
-        base_url = 'https://id.loc.gov/authorities/label/'
+        accepted_authorities = [
+            'subjects',
+            'childrensSubjects',
+            'performanceMediums',
+            'demographicTerms',
+            'graphicMaterials',
+            'ethnographicTerms',
+            'names',
+            'genreForms',
+        ]
+        if authority is None:
+            base_url = 'https://id.loc.gov/authorities/label/'
+        else:
+            if authority in accepted_authorities:
+                base_url = f'https://id.loc.gov/authorities/{authority}/label/'
+            else:
+                raise ValueError("""The authority supplied is not accepted. Please choose:
+                - subjects
+                - childrensSubjects
+                - performanceMediums
+                - demographicTerms
+                - graphicMaterials
+                - ethnographicTerms
+                - names
+                - genreForms
+                """)
         query_url = urljoin(base_url, label)
         response = requests.get(query_url, allow_redirects=False)
         # successful query should return a redirect
@@ -188,7 +217,9 @@ class LocEntity(object):
         graph = rdflib.Graph()
         # try to query dataset URI first if it exists - sometimes plain URI throws an error
         if self.dataset_uri:
-            response = requests.get(self.dataset_uri, headers={'Accept': 'application/rdf+xml'})
+            response = requests.get(
+                self.dataset_uri, headers={'Accept': 'application/rdf+xml'}
+            )
         else:
             response = requests.get(self.uri, headers={'Accept': 'application/rdf+xml'})
         response.raise_for_status()  # raise HTTPError on bad requests
