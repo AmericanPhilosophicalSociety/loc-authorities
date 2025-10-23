@@ -32,7 +32,7 @@ Via pip into virtual environment
 
 Clone the repo, then in the base directory, run:
 
-```$ pip install .```
+```$ pip install loc-authorities```
 
 ## Usage
 

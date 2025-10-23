@@ -8,13 +8,13 @@ Install loc_authorities into a virtual environment with pip:
 
 .. code-block:: console
 
-    (.venv) $ pip install git+https://github.com/AmericanPhilosophicalSociety/lc-ld
+    (.venv) $ pip install loc-authorities
 
 Alternatively, install with uv:
 
 .. code-block:: console
 
-    $ uv add "lc-ld @git+https://github.com/AmericanPhilosophicalSociety/lc-ld"
+    $ uv add loc-authorities
 
 Basic Usage
 -----------
