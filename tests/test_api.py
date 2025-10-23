@@ -6,7 +6,14 @@ from unittest.mock import patch, Mock
 import requests
 import rdflib
 
-from loc_authorities.api import LocAPI, SRUItem, LocEntity, NameEntity, SubjectEntity, SRUResult
+from loc_authorities.api import (
+    LocAPI,
+    SRUItem,
+    LocEntity,
+    NameEntity,
+    SubjectEntity,
+    SRUResult,
+)
 
 
 FIXTURES_PATH = os.path.join(os.path.dirname(__file__), 'fixtures')
