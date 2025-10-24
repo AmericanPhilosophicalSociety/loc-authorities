@@ -180,7 +180,6 @@ class LocAPI(object):
             return identifier
 
         else:
-            # TODO: Not covered by test suite. Implement test
             response.raise_for_status()
 
             return None
