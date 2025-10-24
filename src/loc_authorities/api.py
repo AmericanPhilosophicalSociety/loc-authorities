@@ -183,6 +183,8 @@ class LocAPI(object):
             # TODO: Not covered by test suite. Implement test
             response.raise_for_status()
 
+            return None
+
 
 # Question: Does each dataset need its own representation?
 class LocEntity(object):
@@ -221,6 +223,7 @@ class LocEntity(object):
                 self.dataset_uri, headers={'Accept': 'application/rdf+xml'}
             )
         else:
+            # not covered by test suite
             response = requests.get(self.uri, headers={'Accept': 'application/rdf+xml'})
         response.raise_for_status()  # raise HTTPError on bad requests
         graph.parse(data=response.text, format='xml')
