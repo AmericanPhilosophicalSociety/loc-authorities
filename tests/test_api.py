@@ -100,6 +100,15 @@ class TestLocAPI(object):
 
         assert loc.retrieve_label('Franklin, Benjamin, 1706-1790') == 'n79043402'
 
+        loc.retrieve_label('Franklin, Benjamin, 1706-1790', authority="names")
+        mockrequests.get.assert_called_with('https://id.loc.gov/authorities/names/label/Franklin, Benjamin, 1706-1790', allow_redirects=False)
+
+        with pytest.raises(ValueError):
+            loc.retrieve_label('foo', authority='foo')
+    
+        mock_response.status_code = 404
+        assert loc.retrieve_label('History of science', authority='subjects') is None
+
     # features to test for search results:
     # constructs URLs correctly for differing authorities
     # returns empty list with no results
