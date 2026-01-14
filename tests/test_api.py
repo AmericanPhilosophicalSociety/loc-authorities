@@ -112,6 +112,9 @@ class TestLocAPI(object):
         mock_response.status_code = 404
         assert loc.retrieve_label('History of science', authority='subjects') is None
 
+        mock_response.status_code = 500
+        assert loc.retrieve_label('History of science', authority='subjects') is None
+
     # features to test for search results:
     # constructs URLs correctly for differing authorities
     # returns empty list with no results

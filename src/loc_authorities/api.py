@@ -179,9 +179,10 @@ class LocAPI(object):
             identifier = uri.split('/')[-1]
             return identifier
 
+        elif response.status_code == 404:
+            logger.warning(f'404 returned for {label}.')
+            return None
         else:
-            response.raise_for_status()
-
             return None
 
 
