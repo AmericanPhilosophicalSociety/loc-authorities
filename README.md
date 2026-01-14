@@ -114,7 +114,10 @@ Install development requirements
 ```$ pip install . --group dev```
 
 Run tests with pytest  
-```$ python -m pytest```  
+```$ python -m pytest --cov --cov-report=html:calc_cov```  
+
+Run tests and produce HTML coverage report
+```$ python -m pytest 
 
 ## Build documentation
 
