@@ -317,6 +317,57 @@ class NameEntity(LocEntity):
         return edtf_year
 
 
+class TemporalEntity(LocEntity):
+    """Container to representa temporal subject. Most temporal subjects
+    are not indexed in LoC, so this container provides minimal RDF to capture
+    the schema. Temporal entities that are indexed should be instantiated
+    as :class:`SubjectEntity`.
+
+    Overrides :class:`LocEntity` methods to return `None` where the property
+    does not exist.
+
+    :param label: the text of the authoritative label (string)
+    """
+
+    def __init__(self, label):
+        self.label = label
+
+    @property
+    def uriref(self):
+        """LoC URI reference as instance of :class:`rdflib.URIRef`"""
+        return None
+
+    @property
+    def dataset_uriref(self):
+        """LoC URI reference that includes LCNAF dataset
+        marker as instance of :class:`rdflib.URIRef`"""
+        return None
+
+    @property
+    def rdf(self):
+        """LoC data for this entity as :class:`rdflib.Graph`"""
+        graph = rdflib.Graph()
+        bn = rdflib.BNode()
+        graph.add(
+            (bn, MADS_NS.authoritativeLabel, rdflib.Literal(self.label, lang='en'))
+        )
+        graph.add((bn, RDF.type, MADS_NS.Temporal))
+        graph.add((bn, RDF.type, MADS_NS.Authority))
+
+        return graph
+
+    @property
+    def authoritative_label(self):
+        """Authoritative entity label in English"""
+        label_literal = rdflib.Literal(self.label, lang='en')
+        return label_literal
+
+    @property
+    def scheme_membership(self):
+        """Since temporal entities are not indexed, returns None."""
+        return None
+
+
 class SubjectEntity(LocEntity):
     """Object to represent single entity from the LoC
     Subject Headings authority. Inherits :class:`LocEntity`.
@@ -350,7 +401,7 @@ class SubjectEntity(LocEntity):
                     components.append(entity)
                 else:
                     # Not covered by test suite
-                    logger.warning(f'Unrecognized schema for URI: {c}')
+                    logger.wacrning(f'Unrecognized schema for URI: {c}')
             else:
                 # Not covered by test suite
                 temp_label = self.rdf.value(c, MADS_NS.authoritativeLabel)
@@ -360,6 +411,16 @@ class SubjectEntity(LocEntity):
             return components
         else:
             return None
+
+
+class DummyComplexEntity(SubjectEntity):
+    """Container to represent a complex topic that does not
+    have a URI but contains all valid subcomponents.
+
+    :param components: URIs for subcomponents (list)
+    """
+
+    pass
 
 
 class SRUResult(object):

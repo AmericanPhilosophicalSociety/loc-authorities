@@ -11,6 +11,7 @@ from loc_authorities.api import (
     SRUItem,
     LocEntity,
     NameEntity,
+    TemporalEntity,
     SubjectEntity,
     SRUResult,
 )
@@ -298,6 +299,29 @@ class TestNameEntity(object):
         # test uncertainty markers in EDTF
         assert NameEntity.year_from_edtf('1847?') == 1847
         assert NameEntity.year_from_edtf('0213~') == 213
+
+
+class TestTemporalEntity(object):
+    label = '1986-'
+    ent = TemporalEntity(label)
+
+    def test_authoritative_label(self):
+        assert str(self.ent.authoritative_label) == '1986-'
+
+    def test_null_properties(self):
+        assert self.ent.uriref is None
+        assert self.ent.dataset_uriref is None
+        assert self.ent.scheme_membership is None
+
+    def test_instance_of(self):
+        # instances is formed from ent.rdf, so this is implicitly a test for
+        # whether the rdf is correctly parsed
+        test_instances = [
+            'http://www.loc.gov/mads/rdf/v1#Temporal',
+            'http://www.loc.gov/mads/rdf/v1#Authority',
+        ]
+        instances = [str(i) for i in self.ent.instance_of]
+        assert set(test_instances) == set(instances)
 
 
 class TestSubjectEntity(object):
