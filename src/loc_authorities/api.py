@@ -401,11 +401,12 @@ class SubjectEntity(LocEntity):
                     components.append(entity)
                 else:
                     # Not covered by test suite
-                    logger.wacrning(f'Unrecognized schema for URI: {c}')
+                    logger.warning(f'Unrecognized schema for URI: {c}')
             else:
-                # Not covered by test suite
-                temp_label = self.rdf.value(c, MADS_NS.authoritativeLabel)
-                components.append(temp_label)
+                # Assume this is a temporal entity
+                label = self.rdf.value(c, MADS_NS.authoritativeLabel)
+                entity = TemporalEntity(str(label))
+                components.append(entity)
 
         if len(components) > 0:
             return components

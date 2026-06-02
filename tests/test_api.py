@@ -351,6 +351,25 @@ class TestSubjectEntity(object):
         with patch.object(SubjectEntity, 'rdf', new=test_rdf):
             assert ent.components is None
 
+    def test_complex_entity_with_time(self):
+        # Complex entities can have time components that do not have
+        # URIs
+
+        rdf_fixture = os.path.join(FIXTURES_PATH, 'sh93000006.rdf')
+
+        ent = SubjectEntity('sh93000006')
+        test_rdf = rdflib.Graph()
+        test_rdf.parse(rdf_fixture)
+
+        with patch.object(SubjectEntity, 'rdf', new=test_rdf):
+            assert len(ent.components) == 3
+            names = [isinstance(c, NameEntity) for c in ent.components]
+            subjects = [isinstance(c, SubjectEntity) for c in ent.components]
+            temporal = [isinstance(c, TemporalEntity) for c in ent.components]
+            assert names.count(True) == 1
+            assert subjects.count(True) == 1
+            assert temporal.count(True) == 1
+
 
 def test_sru_result():
     sru_fixture = os.path.join(FIXTURES_PATH, 'sru_search.json')
