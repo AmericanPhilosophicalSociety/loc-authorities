@@ -345,7 +345,7 @@ class TemporalEntity(LocEntity):
 
     @property
     def rdf(self):
-        """LoC data for this entity as :class:`rdflib.Graph`"""
+        """Basic linked data for this entity as :class:`rdflib.Graph`"""
         graph = rdflib.Graph()
         bn = rdflib.BNode()
         graph.add(
@@ -380,7 +380,7 @@ class SubjectEntity(LocEntity):
         """Components for LoC Complex subjects. If subject is
         complex, returns a list of :class:`SubjectEntity`
         and :class:`NameEntity` objects. If subject is simple,
-        returns `None`.
+        returns :class:`TemporalEntity`.
         """
         # container list for results
         components = []
@@ -416,7 +416,7 @@ class DummyComplexEntity(SubjectEntity):
     """Container to represent a complex topic that does not
     have a URI but contains all valid subcomponents.
 
-    :param components: URIs for subcomponents (list)
+    :param components: URIs or tempoal labels for subcomponents (list)
     """
 
     def __init__(self, components):
@@ -442,15 +442,16 @@ class DummyComplexEntity(SubjectEntity):
     @cached_property
     def dataset_uriref(self):
         """LoC URI reference that includes LCNAF dataset
-        marker as instance of :class:`rdflib.URIRef`
+        marker as instance of :class:`rdflib.BNode`
 
-        For queries to work, this needs to be a real URI,
-        so we use the reserved URI "http://example.org".
+        For queries to work, this is a cached property.
+        It persists during one session, but not between sessions.
         """
         return rdflib.BNode()
 
     @cached_property
     def rdf(self):
+        """Basic linked data for this entity as :class:`rdflib.Graph`"""
         graph = rdflib.Graph()
         bn = self.dataset_uriref
         graph.add((bn, MADS_NS.authoritativeLabel, self.authoritative_label))
@@ -479,6 +480,11 @@ class DummyComplexEntity(SubjectEntity):
 
     @property
     def components(self):
+        """Components for LoC Complex subjects. If subject is
+        complex, returns a list of :class:`SubjectEntity`
+        and :class:`NameEntity` objects. If subject is simple,
+        returns :class:`TemporalEntity`.
+        """
         return self.initial_components
 
     @cached_property
@@ -491,7 +497,7 @@ class DummyComplexEntity(SubjectEntity):
 
     @property
     def scheme_membership(self):
-        """Since temporal entities are not indexed, returns None."""
+        """Since entities are not indexed, returns None."""
         return None
 
 
