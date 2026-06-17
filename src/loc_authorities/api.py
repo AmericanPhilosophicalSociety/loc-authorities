@@ -381,8 +381,6 @@ class SubjectEntity(LocEntity):
         complex, returns a list of :class:`SubjectEntity`
         and :class:`NameEntity` objects. If subject is simple,
         returns `None`.
-
-        Currently does not support temporal elements.
         """
         # container list for results
         components = []
@@ -421,7 +419,80 @@ class DummyComplexEntity(SubjectEntity):
     :param components: URIs for subcomponents (list)
     """
 
-    pass
+    def __init__(self, components):
+        self.initial_components = []
+        for component in components:
+            # should not need regex since labels should not start with lowercase
+            if component.startswith('n'):
+                ent = NameEntity(component)
+                self.initial_components.append(ent)
+            elif component.startswith('sh'):
+                ent = SubjectEntity(component)
+                self.initial_components.append(ent)
+            else:
+                # assume temporal entity
+                ent = TemporalEntity(component)
+                self.initial_components.append(ent)
+
+    @property
+    def uriref(self):
+        """LoC URI reference as instance of :class:`rdflib.URIRef`"""
+        return None
+
+    @cached_property
+    def dataset_uriref(self):
+        """LoC URI reference that includes LCNAF dataset
+        marker as instance of :class:`rdflib.URIRef`
+
+        For queries to work, this needs to be a real URI,
+        so we use the reserved URI "http://example.org".
+        """
+        return rdflib.BNode()
+
+    @cached_property
+    def rdf(self):
+        graph = rdflib.Graph()
+        bn = self.dataset_uriref
+        graph.add((bn, MADS_NS.authoritativeLabel, self.authoritative_label))
+        graph.add((bn, RDF.type, MADS_NS.ComplexSubject))
+        graph.add((bn, RDF.type, MADS_NS.Authority))
+        # components
+        components_bn = rdflib.BNode()
+        graph.add((bn, MADS_NS.componentList, components_bn))
+        for n, component in enumerate(self.components):
+            if component.dataset_uriref is None:
+                uri = rdflib.BNode()
+            else:
+                uri = component.dataset_uriref
+            graph.add((components_bn, RDF.first, uri))
+            for instance in component.instance_of:
+                graph.add((uri, RDF.type, instance))
+            graph.add((uri, MADS_NS.authoritativeLabel, component.authoritative_label))
+            if n == len(self.components) - 1:
+                graph.add((components_bn, RDF.rest, RDF.nil))
+            else:
+                next_bnode = rdflib.BNode()
+                graph.add((components_bn, RDF.rest, next_bnode))
+                components_bn = next_bnode
+
+        return graph
+
+    @property
+    def components(self):
+        return self.initial_components
+
+    @cached_property
+    def authoritative_label(self):
+        """Authoritative entity label in English"""
+        labels = [c.authoritative_label for c in self.components]
+        label_string = '--'.join(labels)
+        label_literal = rdflib.Literal(label_string, lang='en')
+        return label_literal
+
+    @property
+    def scheme_membership(self):
+        """Since temporal entities are not indexed, returns None."""
+        return None
 
 
 class SRUResult(object):
