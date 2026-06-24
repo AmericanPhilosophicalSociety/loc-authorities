@@ -8,7 +8,7 @@ authors = [
 ]
 license = {text = "Apache-2.0"}
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "rdflib>=7.1.4",
     "requests>=2.32.4",
@@ -17,6 +17,12 @@ dependencies = [
 [project.urls]
 Documentation = "https://americanphilosophicalsociety.github.io/loc-authorities/"
 Repository = "https://github.com/AmericanPhilosophicalSociety/loc-authorities"
+
+[project.optional-dependencies]
+django = [
+    "django>=5.2.15",
+    "django-autocomplete-light>=5.0.0",
+]
 
 [build-system]
 requires = ["hatchling"]
