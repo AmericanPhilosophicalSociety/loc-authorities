@@ -36,6 +36,32 @@ Clone the repo, then in the base directory, run:
 
 ```$ pip install loc-authorities```
 
+For Django integration, install the optional ```django``` dependency group:
+
+```$ pip install loc-authorities[django]```
+
+Then add ```loc-authorities``` and its dependencies from `django-autocomplete-light` to your installed apps:
+
+```
+INSTALLED_APPS = [
+    ...
+    'dal',
+    'dal_alight',
+    'loc-authorities',
+    ...
+]
+```
+
+Finally, configure the desired URL:
+
+```
+urlpatterns = [
+    ...
+    path(r'loc-authorities/', include('loc-authorities.urls', namespace='loc-authorities')),
+    ...
+]
+```
+
 ## Usage
 
 ```
