@@ -13,7 +13,8 @@ class LocField(autocomplete.AlightListCreateChoiceField):
     """Wrapper for dal field as it requires a predefined choice-list, which
     for this use case is always empty.
 
-    Use :class:`LocWidget` to specify the URL you would like to query.
+    Pass :class:`LocWidget` as this field's widget to specify the URL you would
+    like to query.
     """
     choice_list = []
     widget = LocWidget(url='loc-authorities:suggest')
