@@ -26,7 +26,7 @@ To use loc-authorities with Django, you must add loc-authorities and its depende
         ...
         'dal',
         'dal_alight',
-        'loc-authorities',
+        'loc_authorities',
         ...
     ]
 
@@ -36,6 +36,6 @@ Include the loc-authorities urls at the preferred base url:
 
     urlpatterns = [
         ...
-        path(r'loc-authorities/', include('loc-authorities.urls', namespace='loc-authorities')),
+        path(r'loc-authorities/', include('loc_authorities.urls', namespace='loc_authorities')),
         ...
     ]

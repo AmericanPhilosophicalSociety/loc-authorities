@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     ...
     'dal',
     'dal_alight',
-    'loc-authorities',
+    'loc_authorities',
     ...
 ]
 ```
@@ -57,7 +57,7 @@ Finally, configure the desired URL:
 ```
 urlpatterns = [
     ...
-    path(r'loc-authorities/', include('loc-authorities.urls', namespace='loc-authorities')),
+    path(r'loc-authorities/', include('loc_authorities.urls', namespace='loc_authorities')),
     ...
 ]
 ```
