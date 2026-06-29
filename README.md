@@ -57,7 +57,7 @@ Finally, configure the desired URL:
 ```
 urlpatterns = [
     ...
-    path(r'loc-authorities/', include('loc_authorities.urls', namespace='loc_authorities')),
+    path(r'loc-authorities/', include('loc_authorities.urls', namespace='loc-authorities')),
     ...
 ]
 ```
