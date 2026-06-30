@@ -6,6 +6,7 @@ class LocWidget(autocomplete.ListAlight):
     namespace for loc-authorities and one of the loc-authorities views
     (suggest, name-suggest, subject-suggest, name-search, subject-search).
     """
+
     pass
 
 
@@ -16,6 +17,7 @@ class LocField(autocomplete.AlightListCreateChoiceField):
     Pass :class:`LocWidget` as this field's widget to specify the URL you would
     like to query.
     """
+
     choice_list = []
     widget = LocWidget(url='loc-authorities:suggest')
 

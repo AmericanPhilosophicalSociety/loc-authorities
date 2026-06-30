@@ -9,6 +9,7 @@ class LocLookup(autocomplete.AlightListView):
     search term as query string parameter `q`. Returns the LoC identifier
     and displays the label as text.
     """
+
     authority = None
 
     def get_list(self):
@@ -16,9 +17,7 @@ class LocLookup(autocomplete.AlightListView):
         if q:
             loc = LocAPI()
             result = loc.suggest(q, authority=self.authority)
-            return [
-                (item.loc_id, item.label) for item in result
-            ]
+            return [(item.loc_id, item.label) for item in result]
         else:
             return []
 
@@ -31,6 +30,7 @@ class LocNameLookup(LocLookup):
     Name Authority File for autocomplete lookup. Behaves like
     :class:`LocLookup` but only returns name authority records.
     """
+
     authority = 'names'
 
 
@@ -39,6 +39,7 @@ class LocSubjectLookup(LocLookup):
     LC Subject Headings for autocomplete lookup. Behaves like
     :class:`LocLookup` but only returns subject heading records.
     """
+
     authority = 'subjects'
 
 
@@ -51,6 +52,7 @@ class LocSearch(autocomplete.AlightListView):
     Expects search term as query string parameter `q`. Returns the
     LoC identifier and displays the label as text.
     """
+
     authority = None
 
     def get_list(self):
@@ -58,9 +60,7 @@ class LocSearch(autocomplete.AlightListView):
         if q:
             loc = LocAPI()
             result = loc.search(q, authority=self.authority)
-            return [
-                (item.loc_id, item.label) for item in result
-            ]
+            return [(item.loc_id, item.label) for item in result]
         else:
             return []
 
@@ -73,6 +73,7 @@ class LocNameSearch(LocSearch):
     Name Authority File for autocomplete lookup. Inherits from
     :class:`LocSearch` and only returns name authority records.
     """
+
     authority = 'names'
 
 
@@ -81,4 +82,5 @@ class LocSubjectSearch(LocSearch):
     Subject Headings for autocomplete lookup. Inherits from
     :class:`LocSearch` and only returns subject heading records.
     """
+
     authority = 'subjects'

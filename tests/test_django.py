@@ -36,27 +36,32 @@ class TestSuggest(TestCase):
         assert result.status_code == 200
 
         # simulate no results
-        empty_result = '<div data-create data-value="xqsa">Create &quot;xqsa&quot;</div>'
+        empty_result = (
+            '<div data-create data-value="xqsa">Create &quot;xqsa&quot;</div>'
+        )
         assert result.content.decode('utf-8') == empty_result
         # example of truncated results
-        mock_response = SRUResult({
-            'hits':
-                [
+        mock_response = SRUResult(
+            {
+                'hits': [
                     {
                         'uri': 'http://id.loc.gov/authorities/names/n79043402',
                         'token': 'n79043402',
                         'aLabel': 'Franklin, Benjamin, 1706-1790',
                     }
                 ]
-            }).records
+            }
+        ).records
         mocklocapi.return_value.suggest.return_value = mock_response
         result = self.client.get(lookup_url, {'q': 'franklin'})
         assert result.status_code == 200
         mocklocapi.return_value.suggest.assert_called_with('franklin', authority=None)
         html = result.content.decode('utf-8')
-        lookup_result = ('<div data-value="n79043402">Franklin, Benjamin,'
-                         ' 1706-1790</div><div data-create data-value'
-                         '="franklin">Create &quot;franklin&quot;</div>')
+        lookup_result = (
+            '<div data-value="n79043402">Franklin, Benjamin,'
+            ' 1706-1790</div><div data-create data-value'
+            '="franklin">Create &quot;franklin&quot;</div>'
+        )
         assert html == lookup_result
 
         # test create method
@@ -72,30 +77,37 @@ class TestSuggest(TestCase):
         name_url = reverse('loc_authorities:name-suggest')
         result = self.client.get(name_url, {'q': 'franklin'})
         assert result.status_code == 200
-        mocklocapi.return_value.suggest.assert_called_with('franklin', authority='names')
+        mocklocapi.return_value.suggest.assert_called_with(
+            'franklin', authority='names'
+        )
         html = result.content.decode('utf-8')
         # lookup result should be the same as above
         assert html == lookup_result
 
         # test subjects
-        subject_response = SRUResult({
-            'hits':
-                [
+        subject_response = SRUResult(
+            {
+                'hits': [
                     {
                         'uri': 'http://id.loc.gov/authorities/subjects/sh85100849',
                         'token': 'sh85100849',
-                        'aLabel': 'Philosophy'
+                        'aLabel': 'Philosophy',
                     }
                 ]
-        }).records
+            }
+        ).records
         subject_url = reverse('loc_authorities:subject-suggest')
         mocklocapi.return_value.suggest.return_value = subject_response
         result = self.client.get(subject_url, {'q': 'philosophy'})
         assert result.status_code == 200
-        mocklocapi.return_value.suggest.assert_called_with('philosophy', authority='subjects')
+        mocklocapi.return_value.suggest.assert_called_with(
+            'philosophy', authority='subjects'
+        )
         html = result.content.decode('utf-8')
-        subject_result = ('<div data-value="sh85100849">Philosophy</div><div '
-                          'data-create data-value="philosophy">Create &quot;philosophy&quot;</div>')
+        subject_result = (
+            '<div data-value="sh85100849">Philosophy</div><div '
+            'data-create data-value="philosophy">Create &quot;philosophy&quot;</div>'
+        )
         assert html == subject_result
 
 
@@ -117,27 +129,32 @@ class TestSearch(TestCase):
         assert result.status_code == 200
 
         # simulate no results
-        empty_result = '<div data-create data-value="xqsa">Create &quot;xqsa&quot;</div>'
+        empty_result = (
+            '<div data-create data-value="xqsa">Create &quot;xqsa&quot;</div>'
+        )
         assert result.content.decode('utf-8') == empty_result
         # example of truncated results
-        mock_response = SRUResult({
-            'hits':
-                [
+        mock_response = SRUResult(
+            {
+                'hits': [
                     {
                         'uri': 'http://id.loc.gov/authorities/names/n79043402',
                         'token': 'n79043402',
                         'aLabel': 'Franklin, Benjamin, 1706-1790',
                     }
                 ]
-            }).records
+            }
+        ).records
         mocklocapi.return_value.search.return_value = mock_response
         result = self.client.get(search_url, {'q': 'franklin'})
         assert result.status_code == 200
         mocklocapi.return_value.search.assert_called_with('franklin', authority='names')
         html = result.content.decode('utf-8')
-        search_result = ('<div data-value="n79043402">Franklin, Benjamin,'
-                         ' 1706-1790</div><div data-create data-value'
-                         '="franklin">Create &quot;franklin&quot;</div>')
+        search_result = (
+            '<div data-value="n79043402">Franklin, Benjamin,'
+            ' 1706-1790</div><div data-create data-value'
+            '="franklin">Create &quot;franklin&quot;</div>'
+        )
         assert html == search_result
 
         view = LocNameSearch()
@@ -148,22 +165,27 @@ class TestSearch(TestCase):
         assert view.create(text) == 'n79043042'
 
         # test subjects
-        subject_response = SRUResult({
-            'hits':
-                [
+        subject_response = SRUResult(
+            {
+                'hits': [
                     {
                         'uri': 'http://id.loc.gov/authorities/subjects/sh85100849',
                         'token': 'sh85100849',
-                        'aLabel': 'Philosophy'
+                        'aLabel': 'Philosophy',
                     }
                 ]
-        }).records
+            }
+        ).records
         subject_url = reverse('loc_authorities:subject-search')
         mocklocapi.return_value.search.return_value = subject_response
         result = self.client.get(subject_url, {'q': 'philosophy'})
         assert result.status_code == 200
-        mocklocapi.return_value.search.assert_called_with('philosophy', authority='subjects')
+        mocklocapi.return_value.search.assert_called_with(
+            'philosophy', authority='subjects'
+        )
         html = result.content.decode('utf-8')
-        subject_result = ('<div data-value="sh85100849">Philosophy</div><div '
-                          'data-create data-value="philosophy">Create &quot;philosophy&quot;</div>')
+        subject_result = (
+            '<div data-value="sh85100849">Philosophy</div><div '
+            'data-create data-value="philosophy">Create &quot;philosophy&quot;</div>'
+        )
         assert html == subject_result
